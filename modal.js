@@ -58,6 +58,19 @@ const validateName = (input, errorElement) => {
   }
 };
 
+const validateEmail = (input, errorElement) => {
+  const regex = /^[A-Za-z]{1,}[A-Za-z0-9._%+-]+@[A-Za-z.-]+\.[A-Za-z]{2,}$/;
+  if (regex.test(input.value)) {
+    errorElement.style.display = "none";
+    input.classList.remove("field-error");
+    return true;
+  } else {
+    errorElement.style.display = "block";
+    input.classList.add("field-error");
+    return false;
+  }
+};
+
 // Form Validation process
 
 const firstNameInput = document.querySelector("#first");
