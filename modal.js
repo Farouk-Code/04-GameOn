@@ -9,7 +9,7 @@ function editNav() {
 
 // DOM Elements
 const modalBg = document.querySelector(".bground");
-const modalBtn = document.querySelectorAll(".modal-btn");
+const modalBtns = document.querySelectorAll(".modal-btn");
 const formData = document.querySelectorAll(".formData");
 const closeModal = document.querySelectorAll(".close");
 const content = document.querySelector(".content");
@@ -23,16 +23,20 @@ const launchModal = () => {
   modalBg.style.display = "block";
 };
 
+// launch post registration modal
+const launchM = () => {
+  testModal.style.display = "block";
+  testContent?.classList.remove("hide-modal");
+};
+
 // Launch modal event
-for (let btn of modalBtn) {
+for (let btn of modalBtns) {
   btn.addEventListener("click", launchModal);
 }
 
 // Close modal Form
 const handleCloseModal = () => {
-  content.classList.add("hide-modal");
   modalBg.style.display = "none";
-  content.classList.remove("hide-modal");
 };
 
 for (let element of closeModal) {
@@ -50,6 +54,31 @@ const validateName = (input, errorElement) => {
   } else {
     errorElement.style.display = "block";
     input.classList.add("field-error");
+    return false;
+  }
+};
+
+// Form Validation process
+
+const firstNameInput = document.querySelector("#first");
+const firstNameError = document.querySelector("#firstNameError");
+
+firstNameInput.addEventListener("input", () => {
+  validateName(firstNameInput, firstNameError);
+});
+
+// Main Validation
+
+const validate = () => {
+  const isFirstNameValidate = validateName(firstNameInput, firstNameError);
+
+  const isValidate = isFirstNameValidate;
+
+  if (isValidate) {
+    launchM();
+    handleCloseModal();
+    return true;
+  } else {
     return false;
   }
 };
