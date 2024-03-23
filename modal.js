@@ -1,8 +1,12 @@
+// @ts-ignore
 function editNav() {
   var x = document.getElementById("myTopnav");
+  // @ts-ignore
   if (x.className === "topnav") {
+    // @ts-ignore
     x.className += " responsive";
   } else {
+    // @ts-ignore
     x.className = "topnav";
   }
 }
@@ -13,37 +17,57 @@ const modalBtns = document.querySelectorAll(".modal-btn");
 const formData = document.querySelectorAll(".formData");
 const closeModal = document.querySelectorAll(".close");
 const content = document.querySelector(".content");
-const testModal = document.querySelector(".postRegisterModal");
-const testClose = document.querySelector(".postRegisterClose");
-const btnClose = document.querySelector(".btn-close");
-const testContent = document.querySelector(".postRegisterContent");
+const postModal = document.querySelector(".postRegisterModal");
+const postClose = document.querySelector(".postRegisterClose");
+const postBtnClose = document.querySelector(".post-btn-close");
+const postContent = document.querySelector(".postRegisterContent");
 
-// launch modal form
+// -------------- REGISTRATION MODAL --------------
+
 const launchModal = () => {
+  // @ts-ignore
   modalBg.style.display = "block";
+  content?.classList.remove("hide-modal");
 };
 
-// launch post registration modal
-const launchM = () => {
-  testModal.style.display = "block";
-  testContent?.classList.remove("hide-modal");
-};
-
-// Launch modal event
 for (let btn of modalBtns) {
   btn.addEventListener("click", launchModal);
 }
 
-// Close modal Form
 const handleCloseModal = () => {
-  modalBg.style.display = "none";
+  content?.classList.add("hide-modal");
+  content?.addEventListener("animationend", (event) => {
+    // @ts-ignore
+    if (event.animationName === "modalclose") {
+      // @ts-ignore
+      modalBg.style.display = "none";
+      content.classList.remove("hide-modal");
+    }
+  });
 };
 
 for (let element of closeModal) {
   element.addEventListener("click", handleCloseModal);
 }
 
-// Form Validation
+// -------------- POST REGISTRATION MODAL --------------
+
+const launchM = () => {
+  // @ts-ignore
+  postModal.style.display = "block";
+  postContent?.classList.remove("hide-modal");
+};
+
+const handleM = () => {
+  postContent?.classList.add("hide-modal");
+  // @ts-ignore
+  postModal.style.display = "none";
+};
+
+postClose?.addEventListener("click", handleM);
+postBtnClose?.addEventListener("click", handleM);
+
+// -------------- FORM VALIDATION --------------
 
 const validateName = (input, errorElement) => {
   const regex = /^[A-Za-zÀ-ÖØ-öø-ÿ]{2,}$/;
@@ -123,7 +147,17 @@ const validateLocation = (inputs, errorElement) => {
   }
 };
 
-// Form Validation process
+const checkboxValidation = (input, erroElement) => {
+  if (input.checked) {
+    erroElement.style.display = "none";
+    return true;
+  } else {
+    erroElement.style.display = "block";
+    return false;
+  }
+};
+
+// -------------- FORM VALIDATION PROCESS --------------
 
 const firstNameInput = document.querySelector("#first");
 const firstNameError = document.querySelector("#firstNameError");
@@ -137,6 +171,8 @@ const quantityInput = document.querySelector("#quantity");
 const quantityError = document.querySelector("#quantityError");
 const locationInputs = document.querySelectorAll("input[name='location']");
 const locationError = document.querySelector("#locationError");
+const checkboxOneInput = document.querySelector("#checkbox1");
+const checkboxError = document.querySelector("#checkboxError");
 
 firstNameInput?.addEventListener("input", () => {
   validateName(firstNameInput, firstNameError);
@@ -163,7 +199,11 @@ for (let input of locationInputs) {
     validateLocation(locationInputs, locationError);
   });
 }
-// Main Validation
+
+checkboxOneInput?.addEventListener("input", () => {
+  checkboxValidation(checkboxOneInput, checkboxError);
+});
+// -------------- MAIN VALIDATION --------------
 
 const validate = () => {
   const isFirstNameValid = validateName(firstNameInput, firstNameError);
@@ -172,16 +212,23 @@ const validate = () => {
   const isDateValid = validateBirthDate(dateInput, dateError);
   const isQuantityValid = validateQuantity(quantityInput, quantityError);
   const isLocationValid = validateLocation(locationInputs, locationError);
+  const isCheckboxOneValid = checkboxValidation(
+    checkboxOneInput,
+    checkboxError
+  );
 
   const isValidate =
     isFirstNameValid &&
     isLastNameValid &&
     isEmailValid &&
     isDateValid &&
-    isQuantityValid;
+    isQuantityValid &&
+    isLocationValid &&
+    isCheckboxOneValid;
 
   if (isValidate) {
     launchM();
+    event?.preventDefault();
     handleCloseModal();
     return true;
   } else {
