@@ -92,6 +92,18 @@ const validateBirthDate = (input, errorElement) => {
   }
 };
 
+const validateQuantity = (input, errorElement) => {
+  if (input.value === "") {
+    errorElement.style.display = "block";
+    input.classList.add("field-error");
+    return false;
+  } else {
+    errorElement.style.display = "none";
+    input.classList.remove("field-error");
+    return true;
+  }
+};
+
 // Form Validation process
 
 const firstNameInput = document.querySelector("#first");
@@ -102,6 +114,8 @@ const emailInput = document.querySelector("#email");
 const emailError = document.querySelector("#emailError");
 const dateInput = document.querySelector("#birthdate");
 const dateError = document.querySelector("#birthdateError");
+const quantityInput = document.querySelector("#quantity");
+const quantityError = document.querySelector("#quantityError");
 
 firstNameInput?.addEventListener("input", () => {
   validateName(firstNameInput, firstNameError);
@@ -118,19 +132,25 @@ emailInput?.addEventListener("input", () => {
 dateInput?.addEventListener("input", () => {
   validateBirthDate(dateInput, dateError);
 });
+
+quantityInput?.addEventListener("input", () => {
+  validateQuantity(quantityInput, quantityError);
+});
 // Main Validation
 
 const validate = () => {
-  const isFirstNameValidate = validateName(firstNameInput, firstNameError);
-  const isLastNameValidate = validateName(lastNameInput, lastNameError);
-  const isEmailValidate = validateEmail(emailInput, emailError);
-  const isDateValidate = validateBirthDate(dateInput, dateError);
+  const isFirstNameValid = validateName(firstNameInput, firstNameError);
+  const isLastNameValid = validateName(lastNameInput, lastNameError);
+  const isEmailValid = validateEmail(emailInput, emailError);
+  const isDateValid = validateBirthDate(dateInput, dateError);
+  const isQuantityValid = validateQuantity(quantityInput, quantityError);
 
   const isValidate =
-    isFirstNameValidate &&
-    isLastNameValidate &&
-    isEmailValidate &&
-    isDateValidate;
+    isFirstNameValid &&
+    isLastNameValid &&
+    isEmailValid &&
+    isDateValid &&
+    isQuantityValid;
 
   if (isValidate) {
     launchM();
