@@ -71,21 +71,66 @@ const validateEmail = (input, errorElement) => {
   }
 };
 
+const validateBirthDate = (input, errorElement) => {
+  if (input.value === "") {
+    errorElement.style.display = "block";
+    input.classList.add("field-error");
+    return false;
+  } else {
+    const birthDate = new Date(input.value);
+    const currentDate = new Date();
+    const age = currentDate.getFullYear() - birthDate.getFullYear();
+    if (age < 12 || age > 100) {
+      errorElement.style.display = "block";
+      input.classList.add("field-error");
+      return false;
+    } else {
+      errorElement.style.display = "none";
+      input.classList.remove("field-error");
+      return true;
+    }
+  }
+};
+
 // Form Validation process
 
 const firstNameInput = document.querySelector("#first");
 const firstNameError = document.querySelector("#firstNameError");
+const lastNameInput = document.querySelector("#last");
+const lastNameError = document.querySelector("#lastNameError");
+const emailInput = document.querySelector("#email");
+const emailError = document.querySelector("#emailError");
+const dateInput = document.querySelector("#birthdate");
+const dateError = document.querySelector("#birthdateError");
 
-firstNameInput.addEventListener("input", () => {
+firstNameInput?.addEventListener("input", () => {
   validateName(firstNameInput, firstNameError);
 });
 
+lastNameInput?.addEventListener("input", () => {
+  validateName(lastNameInput, lastNameError);
+});
+
+emailInput?.addEventListener("input", () => {
+  validateEmail(emailInput, emailError);
+});
+
+dateInput?.addEventListener("input", () => {
+  validateBirthDate(dateInput, dateError);
+});
 // Main Validation
 
 const validate = () => {
   const isFirstNameValidate = validateName(firstNameInput, firstNameError);
+  const isLastNameValidate = validateName(lastNameInput, lastNameError);
+  const isEmailValidate = validateEmail(emailInput, emailError);
+  const isDateValidate = validateBirthDate(dateInput, dateError);
 
-  const isValidate = isFirstNameValidate;
+  const isValidate =
+    isFirstNameValidate &&
+    isLastNameValidate &&
+    isEmailValidate &&
+    isDateValidate;
 
   if (isValidate) {
     launchM();
