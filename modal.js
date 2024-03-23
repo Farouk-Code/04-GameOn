@@ -104,6 +104,25 @@ const validateQuantity = (input, errorElement) => {
   }
 };
 
+const validateLocation = (inputs, errorElement) => {
+  let isLocationSelectioned = false;
+  for (let input of inputs) {
+    if (input.checked) {
+      isLocationSelectioned = true;
+    }
+  }
+
+  if (isLocationSelectioned) {
+    errorElement.style.display = "none";
+    errorElement.classList.remove("field-error");
+    return isLocationSelectioned;
+  } else {
+    errorElement.style.display = "block";
+    errorElement.classList.add("field-error");
+    return isLocationSelectioned;
+  }
+};
+
 // Form Validation process
 
 const firstNameInput = document.querySelector("#first");
@@ -116,6 +135,8 @@ const dateInput = document.querySelector("#birthdate");
 const dateError = document.querySelector("#birthdateError");
 const quantityInput = document.querySelector("#quantity");
 const quantityError = document.querySelector("#quantityError");
+const locationInputs = document.querySelectorAll("input[name='location']");
+const locationError = document.querySelector("#locationError");
 
 firstNameInput?.addEventListener("input", () => {
   validateName(firstNameInput, firstNameError);
@@ -136,6 +157,12 @@ dateInput?.addEventListener("input", () => {
 quantityInput?.addEventListener("input", () => {
   validateQuantity(quantityInput, quantityError);
 });
+
+for (let input of locationInputs) {
+  input.addEventListener("input", () => {
+    validateLocation(locationInputs, locationError);
+  });
+}
 // Main Validation
 
 const validate = () => {
@@ -144,6 +171,7 @@ const validate = () => {
   const isEmailValid = validateEmail(emailInput, emailError);
   const isDateValid = validateBirthDate(dateInput, dateError);
   const isQuantityValid = validateQuantity(quantityInput, quantityError);
+  const isLocationValid = validateLocation(locationInputs, locationError);
 
   const isValidate =
     isFirstNameValid &&
