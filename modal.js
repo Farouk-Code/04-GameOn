@@ -15,6 +15,7 @@ function editNav() {
 const modalBg = document.querySelector(".bground");
 const modalBtns = document.querySelectorAll(".modal-btn");
 const formData = document.querySelectorAll(".formData");
+// @ts-ignore
 const closeModal = document.querySelectorAll(".close");
 const content = document.querySelector(".content");
 const postModal = document.querySelector(".postRegisterModal");
@@ -173,6 +174,8 @@ const locationInputs = document.querySelectorAll("input[name='location']");
 const locationError = document.querySelector("#locationError");
 const checkboxOneInput = document.querySelector("#checkbox1");
 const checkboxError = document.querySelector("#checkboxError");
+const form = document.querySelector("form");
+console.log(form);
 
 firstNameInput?.addEventListener("input", () => {
   validateName(firstNameInput, firstNameError);
@@ -205,7 +208,7 @@ checkboxOneInput?.addEventListener("input", () => {
 });
 // -------------- MAIN VALIDATION --------------
 
-const validate = () => {
+form?.addEventListener("submit", (event) => {
   const isFirstNameValid = validateName(firstNameInput, firstNameError);
   const isLastNameValid = validateName(lastNameInput, lastNameError);
   const isEmailValid = validateEmail(emailInput, emailError);
@@ -228,10 +231,8 @@ const validate = () => {
 
   if (isValidate) {
     launchM();
-    event?.preventDefault();
     handleCloseModal();
-    return true;
   } else {
-    return false;
+    event.preventDefault();
   }
-};
+});
